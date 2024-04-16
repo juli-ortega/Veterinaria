@@ -6,10 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 import static com.example.veterinaria.HelloApplication.closeWindows;
 import static com.example.veterinaria.HelloApplication.currentStage;
-
-import java.io.IOException;
 
 public class IndexController {
     public void callNewAnimal(ActionEvent actionEvent) {

@@ -4,6 +4,7 @@ module com.example.veterinaria {
 
     requires org.kordamp.bootstrapfx.core;
     requires jakarta.persistence;
+    requires java.sql;
 
     opens com.example.veterinaria to javafx.fxml, jakarta.persistence;
     exports com.example.veterinaria;
