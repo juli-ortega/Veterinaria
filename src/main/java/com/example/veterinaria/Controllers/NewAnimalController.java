@@ -40,7 +40,10 @@ public class NewAnimalController {
         this.animalDao = new AnimalDao();
         Owner owner = new Owner();
         owner.setName(txtname.getText());
-        owner.setSurname(txtSurname.getText());
+        String surname = txtSurname.getText().toLowerCase();
+        surname = surname.replaceAll("[áéíóú]", "aeiou");
+        surname = surname.substring(0, 1).toUpperCase() + surname.substring(1);
+        owner.setSurname(surname);
         owner.setNumber(Long.parseLong(txtnumber.getText()));
 
         Animal animal = new Animal();
@@ -67,6 +70,7 @@ public class NewAnimalController {
             alert.setContentText("Se ha guardado correctamente");
             alert.initStyle(StageStyle.UTILITY);
             alert.showAndWait();
+            cleanFields();
 
         }else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -78,5 +82,18 @@ public class NewAnimalController {
 
         }
 
+    }
+
+    public void cleanFields() {
+        cbxAllergic.setValue("Seleccione");
+        txtName.setText("");
+        txtRace.setText("");
+        txtAge.setText("");
+        txtAppearance.setText("");
+        txtTitleHistorical.setText("");
+        txtHistorical.setText("");
+        txtSurname.setText("");
+        txtnumber.setText("");
+        txtname.setText("");
     }
 }

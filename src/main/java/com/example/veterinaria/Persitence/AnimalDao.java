@@ -5,6 +5,9 @@ import com.example.veterinaria.Entitys.Animal;
 import com.example.veterinaria.Entitys.Owner;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class AnimalDao {
     private DatabaseConnector databaseConnector;
@@ -20,7 +23,6 @@ public class AnimalDao {
 
         try {
             connection = DatabaseConnector.getConnection();
-            // Insertar el propietario
             String SQLOwner = "INSERT INTO owner (name, surname, number) VALUES (?, ?, ?)";
             sentenceOwner = connection.prepareStatement(SQLOwner, Statement.RETURN_GENERATED_KEYS);
             sentenceOwner.setString(1, owner.getName());
@@ -28,7 +30,6 @@ public class AnimalDao {
             sentenceOwner.setLong(3, owner.getNumber());
             sentenceOwner.executeUpdate();
 
-            // Obtener el ID del propietario insertado
             ResultSet generatedKeys = sentenceOwner.getGeneratedKeys();
             int ownerId = -1;
             if (generatedKeys.next()) {
@@ -67,6 +68,51 @@ public class AnimalDao {
                 connection.close();
             }
         }
+    };
+    public List<Animal> listAnimals(String search) throws SQLException {
+        Connection connection = null;
+        PreparedStatement sentence = null;
+        String surname = search.toLowerCase();
+        surname = surname.replaceAll("[áéíóú]", "aeiou");
+        surname = surname.substring(0, 1).toUpperCase() + surname.substring(1);
+        List<Animal> animals = new ArrayList<>();
+
+        try {
+            connection = DatabaseConnector.getConnection();
+            String SQL = "SELECT a.* FROM veterinaria.owner o " +
+                    "JOIN veterinaria.animal a ON o.id = a.owner_id " +
+                    "WHERE o.surname = ?";
+            sentence = connection.prepareStatement(SQL);
+            sentence.setString(1, surname);
+
+            ResultSet results = sentence.executeQuery();
+
+            while (results.next()) {
+                Animal animal = new Animal();
+                animal.setName(results.getString("name"));
+                animal.setRace(results.getString("race"));
+                animal.setAge(results.getInt("age"));
+                animal.setTitleHistorical(results.getString("titleHistorical"));
+                animal.setHistorical(results.getString("historical"));
+                animal.setAllergic(results.getBoolean("allergic"));
+                animals.add(animal);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener animales de la base de datos: " + e.getMessage());
+            throw e;
+        } finally {
+            if (sentence != null) {
+                sentence.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return animals;
     }
+
+
+
 
 }

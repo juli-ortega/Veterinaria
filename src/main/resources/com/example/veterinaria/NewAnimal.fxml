@@ -93,7 +93,7 @@
                 </Label>
             </children>
         </Pane>
-        <Button layoutX="563.0" layoutY="619.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Limpiar" />
+        <Button fx:id="btnClean" layoutX="563.0" layoutY="619.0" mnemonicParsing="false" onAction="#cleanFields" prefHeight="50.0" prefWidth="150.0" text="Limpiar" />
         <Button fx:id="btnSave" layoutX="758.0" layoutY="619.0" mnemonicParsing="false" onAction="#save" prefHeight="50.0" prefWidth="150.0" text="Guardar" />
     </children>
 </Pane>

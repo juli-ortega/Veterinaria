@@ -20,18 +20,13 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException, SQLException {
-        connectorDB();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Index.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("Veterinaria");
         stage.setScene(scene);
         stage.show();
         currentStage = stage;
 
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 
     public static void closeWindows(Stage stage) {
@@ -40,13 +35,6 @@ public class HelloApplication extends Application {
 
     public static void fillCombo(ComboBox<String> listCm, ObservableList<String> infoCombo) {
         listCm.setItems(infoCombo);
-    }
-
-    public static void connectorDB() throws SQLException {
-        DatabaseConnector databaseConnector = new DatabaseConnector();
-        if (databaseConnector.getConnection()!=null){
-            System.out.println("ok");
-        }
     }
 }
 
